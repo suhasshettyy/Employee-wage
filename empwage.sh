@@ -1,18 +1,27 @@
 #!/bin/bash -x
-emp=$((RANDOM%3))
-wage=20
-hr=8
-partime=8
-days=20
-case "$emp" in
-1) (( wage = ($wage * $hr) * $days )) 
-echo "Employee wage is $wage"
+fulltime=1
+partime=2
+empcheck=$((RANDOM%3))
+wageperhr=20
+dayspermonth=20
+maxhrsinmonth=100
+totalemphr=0
+totalworkingdays=0
+while [[ $totalemphr -lt $maxhrsinmonth && $totalworkingdays -lt $dayspermonth ]]
+do 
+((totalworkingdays++))
+case "$empcheck" in
+$fulltime)
+emphrs=8
 ;;
-2) (( wage = ($wage * $partime) * $days ))
-echo "Employee Part Time Wage is $wage"
+$partime)
+emphrs=8
 ;;
-3) echo "Employee is absent"
-;;
-*) echo "invalid"
+*)
+emphrs=0
 ;;
 esac
+totalemphr=$((totalemphr+emphrs))
+done
+totalsalary=$((totalemphr*wageperhr))
+
