@@ -22,11 +22,19 @@ emphrs=0
 esac
 echo $emphrs
 }
+
+function dailywagecal
+{
+wage=$((emphrs*wageperhr))
+echo $wage
+}
 while [[ $totalemphr -lt $maxhrsinmonth && $totalworkingdays -lt $dayspermonth ]]
 do
 ((totalworkingdays++))
 emphrs="$( workinghours $((RANDOM%3)) )"
 totalemphr=$((totalemphr+emphrs))
+empdailywage[$totalworkingdays]="$( dailywagecal $emphrs)"
 done
-totalsalary=$((totalemphr*wageperhr))
+totalsalary="$( dailywagecal $totalemphrs )"
+echo "Daily wage" ${empdailywage[@]}
 
