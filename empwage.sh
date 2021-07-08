@@ -1,40 +1,41 @@
 #!/bin/bash -x
-fulltime=1
-partime=2
-wageperhr=20
-dayspermonth=20
-maxhrsinmonth=100
-totalemphr=0
+fulltime=2
+parttime=1
+wagePerHr=20
+daysPerMonth=20
+maxHrsinMonth=100
+totalEmpHr=0
 totalworkingdays=0
 
 function workinghours
 {
-case "$1" in
+case $1 in
 $fulltime)
-emphrs=8
+empHrs=8
 ;;
-$partime)
-emphrs=8
+$parttime)
+empHrs=8
 ;;
 *)
-emphrs=0
+empHrs=0
 ;;
 esac
-echo $emphrs
+echo $empHrs
 }
 
 function dailywagecal
 {
-wage=$((emphrs*wageperhr))
+local empHours=$1
+wage=$((empHours*wagePerHr))
 echo $wage
 }
-while [[ $totalemphr -lt $maxhrsinmonth && $totalworkingdays -lt $dayspermonth ]]
+while [[ $totalEmpHr -lt $maxHrsinMonth && $totalworkingdays -lt $daysPerMonth ]]
 do
 ((totalworkingdays++))
-emphrs="$( workinghours $((RANDOM%3)) )"
-totalemphr=$((totalemphr+emphrs))
-empdailywage[$totalworkingdays]="$( dailywagecal $emphrs)"
+empHours="$( workinghours $((RANDOM%3)) )"
+totalEmpHr=$((totalEmpHr+empHours))
+empdailywage["$totalworkingdays"]="$( dailywagecal $empHours )"
 done
-totalsalary="$( dailywagecal $totalemphrs )"
+totalsalary="$( dailywagecal $totalEmpHours )"
 echo "Daily wage" ${empdailywage[@]}
-
+echo "All keys " ${!empdailywage[@]}
