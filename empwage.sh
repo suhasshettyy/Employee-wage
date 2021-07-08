@@ -1,6 +1,9 @@
 #!/bin/bash -x
 emp=$((RANDOM%2))
+wage=20
+hr=8
 if [ $emp -eq 1 ]
-then echo "Employee is present"
+then (( wage = $wage * $hr )) 
+echo "Employee wage is $wage"
 else echo "Employee is absent"
 fi
